@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #1e1e1e;
+      --border-light: #2a2a2a;
+      --text: #f0ece4;
+      --muted: #6b6760;
+      --accent: #c8f542;
+      --accent-dim: rgba(200, 245, 66, 0.07);
+      --accent-border: rgba(200, 245, 66, 0.2);
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'Instrument Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(200,245,66,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+    header {
+      padding: 4rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.6s ease both;
+    }
+    .header-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .avatar-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 26px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .name-block h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .name-block h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .role-line {
+      margin-top: 0.6rem;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .tagline {
+      margin-top: 1.25rem;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 500px;
+    }
+    .tagline strong { color: var(--text); font-weight: 500; }
+
+    /* SOCIALS */
+    .socials-bar {
+      display: flex;
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 20px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      border-right: 1px solid var(--border);
+      transition: background 0.2s, color 0.2s;
+      flex: 1;
+    }
+    .social-link:last-child { border-right: none; }
+    .social-link:hover { background: var(--surface); color: var(--text); }
+    .social-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* SECTIONS */
+    section {
+      padding: 2.75rem 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.55s ease both;
+    }
+    section:nth-of-type(1) { animation-delay: 0.15s; }
+    section:nth-of-type(2) { animation-delay: 0.2s; }
+    section:nth-of-type(3) { animation-delay: 0.25s; }
+    section:nth-of-type(4) { animation-delay: 0.3s; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* BIO */
+    .bio-lead {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+      line-height: 1.65;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+    .bio-lead .hl { color: var(--accent); font-style: italic; }
+
+    .bio-list { list-style: none; }
+    .bio-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 0.85rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .bio-item:first-child { border-top: none; padding-top: 0; }
+    .bi-icon { font-size: 15px; flex-shrink: 0; line-height: 1.7; }
+    .bi-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .bi-text strong { color: var(--text); font-weight: 500; }
+    .bi-text a {
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-light);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .bi-text a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* CURRENTLY */
+    .currently-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .ci {
+      background: var(--bg);
+      padding: 1.2rem 1.4rem;
+      transition: background 0.18s;
+    }
+    .ci:hover { background: var(--surface); }
+    .ci-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .ci-val { font-size: 14px; color: var(--text); font-weight: 500; line-height: 1.45; }
+    .ci-val a {
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-light);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .ci-val a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* FUN FACT */
+    .fun-card {
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      border-radius: 4px;
+      padding: 1.5rem 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .fun-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .fun-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .fun-text {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* CONTACT */
+    .contact-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .contact-cta { font-family: var(--serif); font-size: 1.35rem; color: var(--text); }
+    .mail-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 10px 18px;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .mail-link:hover { background: var(--accent-dim); }
+
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      animation: fadeUp 0.6s 0.35s ease both;
+    }
+    .footer-text { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 520px) {
+      .header-inner { flex-direction: column-reverse; }
+      .social-link span { display: none; }
+      .social-link { padding: 13px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1 class="name-block"><span>Your </span><em>Name</em></h1>
+        <p class="role-line">AI · ML Engineer · Bengaluru</p>
+        <p class="tagline">
+          I build <strong>intelligent systems</strong> — and occasionally <strong>write about them.</strong> Curious about people, machines, and everything in between.
+        </p>
+      </div>
+      <div class="avatar-circle">YN</div>
+      <!-- Swap avatar with your photo:
+      <img src="your-photo.jpg" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:1px solid #2a2a2a;flex-shrink:0"> -->
+    </div>
+  </header>
+
+  <div class="socials-bar">
+    <a class="social-link" href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      <span>LinkedIn</span>
+    </a>
+    <a class="social-link" href="https://github.com/yourusername" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      <span>GitHub</span>
+    </a>
+    <a class="social-link" href="https://medium.com/@yourusername" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+      <span>Medium</span>
+    </a>
+  </div>
+
+  <!-- BIO -->
+  <section>
+    <div class="section-label">// Hello there 👋</div>
+    <p class="bio-lead">
+      I'm <span class="hl">Jatin Akad</span> — an AI/ML engineer from Alwar, Rajasthan who loves building products that are actually <span class="hl">useful</span> to real people.
+    </p>
+    <ul class="bio-list">
+      <li class="bio-item">
+        <span class="bi-icon">👨‍💻</span>
+        <p class="bi-text">Currently working at <strong><a href="#">Factspan</a></strong>, shipping AI solutions that go beyond the notebook and into the real world.</p>
+      </li>
+      <li class="bio-item">
+        <span class="bi-icon">🌱</span>
+        <p class="bi-text">Exploring the edges of <strong>LLMs, RAG systems</strong> and how AI can do genuinely useful work — not just demos.</p>
+      </li>
+      <li class="bio-item">
+        <span class="bi-icon">✍️</span>
+        <p class="bi-text">I write about AI & ML stuff on <strong><a href="https://medium.com/@jatin.akad">Medium</a></strong> — practical stuff, not hype.</p>
+      </li>
+      <li class="bio-item">
+        <span class="bi-icon">👯</span>
+        <p class="bi-text">Always up to collaborate on interesting problems — especially at the intersection of <strong>AI, product, and people.</strong></p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- CURRENTLY -->
+  <section>
+    <div class="section-label">// Right now</div>
+    <div class="currently-grid">
+      <div class="ci">
+        <div class="ci-label">Building</div>
+        <div class="ci-val">AI systems that handle real production traffic</div>
+      </div>
+      <div class="ci">
+        <div class="ci-label">Reading</div>
+        <div class="ci-val">Thinking Fast and Slow — Kahneman</div>
+      </div>
+      <div class="ci">
+        <div class="ci-label">Learning</div>
+        <div class="ci-val">System design & distributed architecture</div>
+      </div>
+      <div class="ci">
+        <div class="ci-label">Listening to</div>
+        <div class="ci-val">Lo-fi, hip-hop</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUN FACT -->
+  <section>
+    <div class="section-label">// A little more</div>
+    <div class="fun-card">
+      <div class="fun-eyebrow">Fun fact</div>
+      <p class="fun-text">When I'm not training models, I'm probably hiking somewhere, chasing a good sunset, or trying to explain why AI isn't magic to someone at a dinner table.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section style="border-bottom: none;">
+    <div class="contact-row">
+      <p class="contact-cta">Say hello.</p>
+      <a class="mail-link" href="mailto:you@email.com">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        jatin.akad@gmail.com
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-text">Built from scratch · jatinakad.github.io</p>
+  </footer>
+
+</div>
+</body>
+</html>
