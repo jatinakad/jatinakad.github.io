@@ -1,1 +1,0 @@
-# jatinakad.github.io
